@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cell Tower Health & Dropped Calls | Topic 31</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="logo">Topic 31</div>
+
+            <nav>
+                <a href="#overview">Overview</a>
+                <a href="#architecture">Architecture</a>
+                <a href="#results">Results</a>
+                <a href="#screenshots">Screenshots</a>
+                <a href="#links">Links</a>
+            </nav>
+        </div>
+    </header>
+
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+
+            <span class="badge">CAPSTONE PROJECT • TOPIC 31</span>
+
+            <h1>Cell Tower Health<br>& Dropped Calls</h1>
+
+            <p class="hero-description">
+                A data engineering pipeline for analysing cell tower
+                performance, dropped calls, concurrency and utilisation
+                using Databricks and analytical data processing.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="#architecture" class="btn primary">
+                    Explore Project
+                </a>
+
+                <a href="#results" class="btn secondary">
+                    View Results
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Overview -->
+    <section id="overview" class="section">
+
+        <div class="section-heading">
+            <span>01</span>
+            <h2>Project Overview</h2>
+        </div>
+
+        <div class="overview-grid">
+
+            <div class="overview-text">
+
+                <p>
+                    The Cell Tower Health & Dropped Calls project is a
+                    data engineering solution designed to process and
+                    analyse cell tower call records.
+                </p>
+
+                <p>
+                    The pipeline handles raw telecom call data,
+                    performs data-quality validation and cleansing,
+                    removes duplicate records, identifies rejected
+                    records and produces an analytical Gold-layer
+                    dataset at tower and hourly level.
+                </p>
+
+                <p>
+                    The resulting dataset can be used to analyse
+                    dropped-call behaviour, tower performance,
+                    concurrent calls and utilisation.
+                </p>
+
+            </div>
+
+            <div class="info-card">
+
+                <div class="info-item">
+                    <span>Project</span>
+                    <strong>Topic 31</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Domain</span>
+                    <strong>Telecom / Data Engineering</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Primary Platform</span>
+                    <strong>Databricks</strong>
+                </div>
+
+                <div class="info-item">
+                    <span>Architecture</span>
+                    <strong>Bronze → Silver → Gold</strong>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Objectives -->
+    <section class="section alternate">
+
+        <div class="section-heading">
+            <span>02</span>
+            <h2>Objectives</h2>
+        </div>
+
+        <div class="cards">
+
+            <div class="card">
+                <div class="card-number">01</div>
+                <h3>Data Generation</h3>
+                <p>
+                    Generate and prepare the cell tower and call
+                    datasets required for analysis.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-number">02</div>
+                <h3>Data Quality</h3>
+                <p>
+                    Identify duplicates, invalid durations,
+                    unknown towers and other invalid records.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-number">03</div>
+                <h3>Analytical Model</h3>
+                <p>
+                    Build a Gold-layer tower-hour dataset containing
+                    operational performance metrics.
+                </p>
+            </div>
+
+            <div class="card">
+                <div class="card-number">04</div>
+                <h3>Pipeline Automation</h3>
+                <p>
+                    Orchestrate Generator, Bronze, Silver and Gold
+                    processing through a Databricks Job.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Architecture -->
+    <section id="architecture" class="section">
+
+        <div class="section-heading">
+            <span>03</span>
+            <h2>System Architecture</h2>
+        </div>
+
+        <p class="section-intro">
+            The project follows a Medallion Architecture in which
+            raw data is progressively transformed into validated
+            and analytical datasets.
+        </p>
+
+        <div class="pipeline">
+
+            <div class="pipeline-step">
+                <div class="pipeline-icon">01</div>
+                <h3>Generator</h3>
+                <p>
+                    Generates the required cell tower and call data.
+                </p>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="pipeline-step bronze">
+                <div class="pipeline-icon">02</div>
+                <h3>Bronze</h3>
+                <p>
+                    Stores the raw call and tower datasets.
+                </p>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="pipeline-step silver">
+                <div class="pipeline-icon">03</div>
+                <h3>Silver</h3>
+                <p>
+                    Cleans, validates and deduplicates records.
+                </p>
+            </div>
+
+            <div class="arrow">→</div>
+
+            <div class="pipeline-step gold">
+                <div class="pipeline-icon">04</div>
+                <h3>Gold</h3>
+                <p>
+                    Produces tower-hour analytical metrics.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="architecture-details">
+
+            <div>
+                <h3>Bronze Layer</h3>
+                <p>
+                    <strong>bronze_calls</strong> and
+                    <strong>bronze_towers</strong> preserve the
+                    ingested project data.
+                </p>
+            </div>
+
+            <div>
+                <h3>Silver Layer</h3>
+                <p>
+                    <strong>silver_calls</strong> contains valid
+                    records while <strong>silver_rejects</strong>
+                    records data-quality failures.
+                </p>
+            </div>
+
+            <div>
+                <h3>Gold Layer</h3>
+                <p>
+                    <strong>gold_tower_hourly</strong> provides
+                    tower/date/hour level performance metrics.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Technology -->
+    <section class="section alternate">
+
+        <div class="section-heading">
+            <span>04</span>
+            <h2>Technology Stack</h2>
+        </div>
+
+        <div class="tech-grid">
+
+            <div class="tech-card">
+                <h3>Databricks</h3>
+                <p>
+                    Main environment for notebook development,
+                    execution and workflow orchestration.
+                </p>
+            </div>
+
+            <div class="tech-card">
+                <h3>PySpark</h3>
+                <p>
+                    Used for data transformation, validation,
+                    deduplication and aggregation.
+                </p>
+            </div>
+
+            <div class="tech-card">
+                <h3>Delta Tables</h3>
+                <p>
+                    Used for structured analytical data storage.
+                </p>
+            </div>
+
+            <div class="tech-card">
+                <h3>Unity Catalog</h3>
+                <p>
+                    Used for table management, metadata and
+                    data lineage.
+                </p>
+            </div>
+
+            <div class="tech-card">
+                <h3>Databricks Jobs</h3>
+                <p>
+                    Used to orchestrate the complete processing
+                    workflow.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Results -->
+    <section id="results" class="section">
+
+        <div class="section-heading">
+            <span>05</span>
+            <h2>Validated Results</h2>
+        </div>
+
+        <p class="section-intro">
+            The following metrics were obtained from the completed
+            Topic 31 pipeline.
+        </p>
+
+        <div class="metrics-grid">
+
+            <div class="metric">
+                <span class="metric-value">376,200</span>
+                <span class="metric-label">Bronze Call Rows</span>
+            </div>
+
+            <div class="metric">
+                <span class="metric-value">1,800</span>
+                <span class="metric-label">Duplicates Removed</span>
+            </div>
+
+            <div class="metric">
+                <span class="metric-value">372,150</span>
+                <span class="metric-label">Silver Valid Rows</span>
+            </div>
+
+            <div class="metric">
+                <span class="metric-value">2,250</span>
+                <span class="metric-label">Rejected Rows</span>
+            </div>
+
+            <div class="metric">
+                <span class="metric-value">43,142</span>
+                <span class="metric-label">Gold Rows</span>
+            </div>
+
+            <div class="metric">
+                <span class="metric-value">6,792</span>
+                <span class="metric-label">Dropped Calls</span>
+            </div>
+
+            <div class="metric highlight">
+                <span class="metric-value">1.8251%</span>
+                <span class="metric-label">Overall Drop Rate</span>
+            </div>
+
+            <div class="metric">
+                <span class="metric-value">120</span>
+                <span class="metric-label">Towers</span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Gold Analysis -->
+    <section class="section alternate">
+
+        <div class="section-heading">
+            <span>06</span>
+            <h2>Gold Layer Analysis</h2>
+        </div>
+
+        <div class="analysis-grid">
+
+            <div class="analysis-card">
+                <h3>Drop Rate</h3>
+                <p>
+                    Drop rate is calculated at tower and hour level
+                    using dropped calls divided by total calls.
+                </p>
+            </div>
+
+            <div class="analysis-card">
+                <h3>Peak Concurrency</h3>
+                <p>
+                    Concurrent calls are derived from call start
+                    and end events to determine peak concurrent
+                    activity.
+                </p>
+            </div>
+
+            <div class="analysis-card">
+                <h3>Utilisation</h3>
+                <p>
+                    Tower utilisation is derived from peak
+                    concurrency relative to available capacity.
+                </p>
+            </div>
+
+            <div class="analysis-card">
+                <h3>Average Duration</h3>
+                <p>
+                    The Gold layer also provides average call
+                    duration for each tower-hour combination.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Screenshots -->
+    <section id="screenshots" class="section">
+
+        <div class="section-heading">
+            <span>07</span>
+            <h2>Project Evidence</h2>
+        </div>
+
+        <p class="section-intro">
+            Screenshots from the Databricks implementation can be
+            added below to demonstrate the completed pipeline,
+            validation results, workflow execution and lineage.
+        </p>
+
+        <div class="screenshot-placeholder">
+
+            <div class="placeholder-icon">+</div>
+
+            <h3>Add Project Screenshots</h3>
+
+            <p>
+                Add selected screenshots from the completed
+                Databricks and Snowflake implementation here.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- Pipeline -->
+    <section class="section alternate">
+
+        <div class="section-heading">
+            <span>08</span>
+            <h2>Databricks Workflow</h2>
+        </div>
+
+        <div class="workflow">
+
+            <div class="workflow-item">
+                <span>01</span>
+                <strong>Generator</strong>
+            </div>
+
+            <div class="workflow-line"></div>
+
+            <div class="workflow-item">
+                <span>02</span>
+                <strong>Bronze</strong>
+            </div>
+
+            <div class="workflow-line"></div>
+
+            <div class="workflow-item">
+                <span>03</span>
+                <strong>Silver</strong>
+            </div>
+
+            <div class="workflow-line"></div>
+
+            <div class="workflow-item">
+                <span>04</span>
+                <strong>Gold</strong>
+            </div>
+
+        </div>
+
+        <p class="workflow-description">
+            The Databricks Job
+            <strong>Topic31_Cell_Tower_Health_Pipeline</strong>
+            orchestrates the four stages in sequence.
+        </p>
+
+    </section>
+
+
+    <!-- Links -->
+    <section id="links" class="section">
+
+        <div class="section-heading">
+            <span>09</span>
+            <h2>Project Links</h2>
+        </div>
+
+        <div class="links-grid">
+
+            <a href="#" class="project-link">
+                <span>GitHub</span>
+                <strong>Repository →</strong>
+            </a>
+
+            <a href="#" class="project-link">
+                <span>Google Drive</span>
+                <strong>Project Files →</strong>
+            </a>
+
+            <a href="#" class="project-link">
+                <span>Documentation</span>
+                <strong>Final Report →</strong>
+            </a>
+
+        </div>
+
+        <p class="link-note">
+            The links above will be updated with the final GitHub,
+            Google Drive and report URLs before deployment.
+        </p>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <div class="footer-content">
+
+            <div>
+                <strong>Cell Tower Health & Dropped Calls</strong>
+                <p>Topic 31 • Capstone Project</p>
+            </div>
+
+            <div>
+                <p>Data Engineering Project</p>
+                <p>Databricks • PySpark • Delta • Unity Catalog</p>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            © 2026 Topic 31 Capstone Project
+        </div>
+
+    </footer>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
